@@ -2,15 +2,28 @@ package model
 import java.util.regex.Pattern
 
 class Graph {
+    //Lista de Adjacencia
     private val graph: MutableList<MutableList<Int>> = mutableListOf()
+    //Lista de vértices visitados
     private val visited: MutableList<Boolean> = mutableListOf()
+    //Tempo de descoberta, tempo de término
     private val td: MutableList<Int> = mutableListOf()
     private val tt: MutableList<Int> = mutableListOf()
+    //Lista de listas de arestas (indice x possui uma lista de todos vértices de x)
     private val edges: MutableList<MutableList<String>> = mutableListOf()
+    //Contador universal
     private var counter:Int = 0
 
+    /**
+     * Retorna a lista de adjacencia do grafo.
+     */
     fun getGraph(): MutableList<MutableList<Int>> = graph
 
+    /**
+     * Inicializa a lista de adjacencia e as variáveos auxiliares.
+     * @param vertices Lista das relações entre os vértices
+     * @constructor Construtor da classe Graph
+     */
     fun setGraph(vertices: List<String>){
         var sucessores: MutableList<Int> = mutableListOf()
         var index: Int = 1
@@ -39,6 +52,11 @@ class Graph {
 
     }
 
+    /**
+     * Reverte a lista de adjacencia baseada em sucessores para predecessores e retorna ela.
+     * @param n Vértice desejado.
+     * @return **predecessores** lista de predecessores do vértice desejado
+     */
     fun procuraPredecessores(n: Int): List<Int>{
         var predecessores: MutableList<Int> = mutableListOf()
         for(vertice in graph){
@@ -51,10 +69,21 @@ class Graph {
         return predecessores
     }
 
+    /**
+     * Chama o método recursivo da busca em profundidade.
+     * @param g Vértice desejado.
+     * @return **edges** lista de listas de arestas com suas classificações
+     */
     fun depthFirstSearch(g: Int): MutableList<MutableList<String>> {
         executeDepthFirstSearch(g)
         return edges
     }
+
+    /**
+     * Executa a busca em profundiade a partir do vértice g.
+     * @param g Vértice desejado
+     * @receiver depthFirstSearch
+     */
     private fun executeDepthFirstSearch(g: Int){
         visited[g] = true
         counter++
