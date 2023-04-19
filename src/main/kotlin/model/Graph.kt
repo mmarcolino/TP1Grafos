@@ -13,11 +13,19 @@ class Graph {
     private val edges: MutableList<MutableList<String>> = mutableListOf()
     //Contador universal
     private var counter:Int = 0
+    //Lista de ciclos
+    private val cycles: MutableList<MutableList<Int>> = mutableListOf()
+    private val search: MutableList<Int> = mutableListOf()
 
     /**
      * Retorna a lista de adjacencia do grafo.
      */
     fun getGraph(): MutableList<MutableList<Int>> = graph
+
+    /**
+     * Retorna a lista de adjacencia do grafo.
+     */
+    fun getCycles(): MutableList<MutableList<Int>> = cycles
 
     /**
      * Inicializa a lista de adjacencia e as variáveos auxiliares.
@@ -89,6 +97,7 @@ class Graph {
         counter++
         td[g] = counter
         print("$g ")
+        search.add(g)
         val ite:Iterator<Int> = graph[g].listIterator()
         while (ite.hasNext()){
             val adj = ite.next()
@@ -97,7 +106,18 @@ class Graph {
                 edges[g].add("${g}-${adj} = Arvore")
             }
             else{
-                if(tt.get(adj) == 0) edges[g].add("${g}-${adj} = Retorno")
+                if(tt.get(adj) == 0){
+                    edges[g].add("${g}-${adj} = Retorno")
+                    val list: MutableList<Int> = mutableListOf()
+                    for (i in search.lastIndex downTo 0){
+                        if (i != adj) list.add(i)
+                        else{
+                            list.add(i)
+                            break
+                        }
+                    }
+                    cycles.add(list)
+                }
                 else if(td[g] < td[adj]) edges[g].add("${g}-${adj} = Avanco")
                 else edges[g].add("${g}-${adj} = Cruzamento")
             }

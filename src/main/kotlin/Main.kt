@@ -21,4 +21,8 @@ fun main(args: Array<String>) {
     val arestas: MutableList<MutableList<String>> = grafo.depthFirstSearch(numINput)
     println()
     println("Classificacao das arestas: ${arestas[numINput]}")
+    println("Número de ciclos: ${grafo.getCycles().size}")
+    println("Ciclos: ${grafo.getCycles()}")
+
+
 }
